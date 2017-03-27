@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/jquery/jquery.cookie-1.4.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+  if ($.cookie('cookie_Tno')==null) {window.location.href="/dashabi.html";}
+  // var T = $.cookie('cookie_Tno');
+  // alert(T);
+
+$("button").click(function(){
+  var var_Pno       = $("#Pno").val();
+  var var_Tno       = $.cookie('cookie_Tno');
+  var var_Ptitle    = $("#Ptitle").val();
+  var var_Pdescribe = $("#Pdescribe").val();
+   
+  
+    $.post("/ReleaseTitle.php",
+  
+  {
+    Pno : String(var_Pno),
+    Tno : String(var_Tno),
+    Ptitle : String(var_Ptitle),
+    Pdescribe : String(var_Pdescribe),
+  },
+  
+  function(data){
+
+     // console.log(typeof data);
+
+     // alert(data);
+      if (data==1) {
+        alert("输入成功！点击确定后填写下一个");
+        setTimeout("javascript:location.href='/ReleaseTitle.html'");
+        }
+
+      else if (data==2) {
+        alert("亲爱的老师！最多只能发布六个题目！");
+      }
+
+      // else if (data==3) {
+      //   alert("提供项目编号重复或错误，请重新编写");
+      // }
+
+      else if (data==5) {
+        alert("提供项目编号重复或错误，请重新编写");
+      }
+
+      else if (data==0) {
+        alert("返回0");
+      }
+
+     else{
+      alert("未知错误，请刷新");
+      }
+   
+
+    });//end of $.post("/test2.php",
+    
+  });//end of $("#btn_test").click(function()
+
+});//end of (document).ready(function()
+</script>
+
+<!-- id=Tno>职工编号
+id=Pno>题目编号
+id=Ptitle>题目
+id=Pdescribe>题干 -->
+
+题目编号：<br><textarea  id="Pno" style='width: 200px;resize: none;' ></textarea><br><br>
+<!-- 教职工编号：<br><textarea  id="Tno" style='width: 200px;resize: none;' ></textarea><br><br> -->
+题目：<br><textarea  id="Ptitle" style='width: 500px;resize: none;' ></textarea><br><br>
+题干：<br><textarea  id="Pdescribe" style='height: 400px;width: 800px;resize: none;' ></textarea><br><br>
+<button>提交</button><br>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

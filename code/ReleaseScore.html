@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/jquery/jquery.cookie-1.4.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+  if ($.cookie('cookie_Tno')==null) {window.location.href="/dashabi.html";}
+  // var T = $.cookie('cookie_Tno');
+  // alert(T);
+
+$("button").click(function(){
+  var var_Tno   = $.cookie('cookie_Tno');
+  var var_Pno  = $("#Pno").val();
+  var var_Sno  = $("#Result").val();
+  var var_Result  = $("#Result").val();
+  var var_ResultDetail = $("#ResultDetail").val();
+  var var_Permission   = $.cookie('cookie_Permission');
+   
+  
+    $.post("/SubmitScore.php",
+  
+  {
+    Tno : String(var_Tno),
+    Pno : String(var_Pno),
+    Result : String(var_Result),
+    ResultDetail:String(var_ResultDetail),
+    Permission : String(var_Permission),
+  },
+  
+  function(data){
+
+     // console.log(typeof data);
+
+     // alert(data);
+      if (data==1) {
+        alert("输入成功！点击确定后填写下一个");
+        setTimeout("javascript:location.href='/ReleaseScore.html'");
+        }
+
+      else if (data==0) {
+        alert("返回0");
+      }
+
+     else{
+      alert("未知错误，请刷新");
+      }
+   
+
+  });//end of $.post("/test2.php",
+    
+});//end of $("#btn_test").click(function()
+
+});//end of (document).ready(function()
+</script>
+
+<!-- id=Tno>职工编号
+id=Pno>题目编号
+id=Ptitle>题目
+id=Pdescribe>题干 -->
+
+题目编号：<br><textarea  id="Pno" style='width: 200px;resize: none;' ></textarea><br><br>
+分数：<br><textarea  id="Result" style='width: 200px;resize: none;' ></textarea><br><br>
+评语：<br><textarea  id="ResultDetail" style='height: 400px;width: 800px;resize: none;' ></textarea><br><br>
+<button>提交</button><br>
+
+</body>
+</html>
+

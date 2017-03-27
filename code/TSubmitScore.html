@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/jquery/jquery.cookie-1.4.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+  if ($.cookie('cookie_Tno')==null) {window.location.href="/dashabi.html";}
+  // var T = $.cookie('cookie_Tno');
+  // alert(T);
+
+$("button").click(function(){
+  var var_Tno   = $.cookie('cookie_Tno');
+  var var_Sno  = $("#Sno").val();
+  var var_Score  = $("#Score").val();
+  
+  
+    $.post("/TSubmitScore.php",
+  
+  {
+    Tno : String(var_Tno),
+    Sno : String(var_Sno),
+    Score : String(var_Score),
+  },
+  
+  function(data){
+
+     // console.log(typeof data);
+
+     // alert(data);
+      if (data==1) {
+        alert("导师成绩填写成功！摁下确定跳转");
+        setTimeout("javascript:location.href='/TSubmitScore.html'");
+        }
+
+      else if (data==2) {
+        alert("评定成绩填写成功");
+      }
+
+      // else if (data==3) {
+      // }
+
+      // else if (data==4) {
+      // }
+
+     else{
+      alert("未知错误，请刷新");
+      }
+   
+
+  });//end of $.post("/test2.php",
+    
+});//end of $("#btn_test").click(function()
+
+});//end of (document).ready(function()
+</script>
+
+<!-- id=Tno>职工编号
+id=Pno>题目编号
+id=Ptitle>题目
+id=Pdescribe>题干 -->
+<h2>请输入学生成绩：</h2><br><br>
+学生学号：<br><textarea  id="Sno" style='width: 200px;resize: none;' ></textarea><br><br>
+成绩：<br><textarea  id="Score" style='width: 200px;resize: none;' ></textarea><br><br>
+<button>提交</button><br>
+
+</body>
+</html>
+

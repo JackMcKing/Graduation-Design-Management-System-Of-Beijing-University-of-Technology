@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/jquery/jquery.cookie-1.4.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+  $("button").click(function(){
+    var x=$("#username:input:text").val();
+    var y=$("#userpswd:input:password").val();
+  
+      $.post("/login.php",
+  
+    {
+      username:x,
+      userpswd:y,
+    },
+  
+    function(data,status){
+  
+      
+      if (data=='1') {
+        alert("登录成功，你是学生");
+        var cookie_Sno = $("#username").val();
+        //var cookie_Sper = $("#username").val();
+        $.cookie("cookie_Sno", cookie_Sno, {path:'/'});
+      }
+
+      else if (data=='2') {
+        window.location.href="/ReleaseTitle.html";
+        var cookie_Tno = $("#username").val();
+        //var cookie_Sno = $("#username").val();
+        $.cookie("cookie_Tno", cookie_Tno, {path:'/'});
+      }
+
+      else if (data=='3') {
+        alert("傻逼管理员");
+        var cookie_Ano = $("#username").val();
+        //var cookie_Sno = $("#username").val();
+        $.cookie("cookie_Ano", cookie_Ano, {path:'/'});
+      }
+
+      else if (data=='0'){
+        alert("用户名或密码错误");
+      }
+   
+
+    });//end of $.post("/test2.php",
+    
+  });//end of $("#btn_test").click(function()
+
+});//end of (document).ready(function()
+</script>
+
+
+用户名:<br>
+<input id="username" type="text" name="username">
+<br><br>
+
+密码:<br>
+<input id="userpswd" type="password" name="userpswd">
+<br><br>
+
+<button>登录</button>
+
+</body>
+</html>
+

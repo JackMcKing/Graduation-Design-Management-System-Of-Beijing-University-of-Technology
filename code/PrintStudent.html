@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        table{
+            /*边框折叠*/
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 1px solid #c0c0c0;
+        }
+        th,td{
+            border: 1px solid #d0d0d0;
+            color:#404060;
+            padding: 10px;
+        }
+        th{
+            background-color: #2E34A0;
+            font: bold 16px "微软雅黑";
+            color:#fff;
+        }
+        td{
+            font: 14px "微软雅黑";
+        }
+        tbody tr{
+            background-color: #f0f0f0;
+        }
+        tbody tr:hover{
+            cursor: pointer;
+            background-color: #fafafa;
+        }
+    </style>
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="/jquery/jquery.cookie-1.4.1.min.js"></script>
+    <script type="text/javascript">
+      if ($.cookie('cookie_Sno')==null) {window.location.href="/dashabi.html";}
+
+       $.post("/SCheckTitle.php",
+          {
+            Sno:$.cookie('cookie_Sno'),
+          },
+          function(data){
+            //var phpdata = data;
+            obj = eval('('+data+')');
+            $(function () {
+            var strHTML = "";
+            for( var i =0;i<obj.length;i++){
+                var temp = obj[i];
+                strHTML += "<tr>";
+                strHTML += "    <td>"+temp.Pno+"</td>";
+                strHTML += "    <td>"+temp.Ptitle+"</td>";
+                strHTML += "    <td>"+temp.Tname+"</td>";
+                strHTML += "</tr>";
+            }
+            $("#J_tbData").html(strHTML);
+        });
+          }
+        );//end of post
+
+        // var data = [{
+        //     Pno:"6661",
+        //     Ptitle:"第6661号项目"
+        // },{
+        //     Pno:"6662",
+        //     Ptitle:"第6661号项目"
+        // },{
+        //     Pno:"6663",
+        //     Ptitle:"第6661号项目"
+        // }];
+        // $(function () {
+        //     var strHTML = "";
+        //     for( var i =0;i<data.length;i++){
+        //         var temp = data[i];
+        //         strHTML += "<tr>";
+        //         strHTML += "    <td>"+temp.Pno+"</td>";
+        //         strHTML += "    <td>"+temp.Ptitle+"</td>";
+        //         strHTML += "</tr>";
+        //     }
+        //     $("#J_tbData").html(strHTML);
+        // });
+      
+
+      //function pressbutton1(){
+        $(document).ready(function(){
+          $("#view").click(function(){
+            // $.post("/TCheckTitle.php",{btn:'view',},
+            //   function(data){
+                var cookie_Pno = $("#input_Pno").val();
+                $.post("/CheckDetails.php",
+                    {
+                        Pno:cookie_Pno,
+                    },
+                    function(data){
+                        alert(data);
+                    }
+                    );
+              // });//end of $.post("/test2.php", 
+            });//end of $("#btn_test").click(function()
+          });//end of (document).ready(function()
+        //}
+
+      //function pressbutton2(){
+        $(document).ready(function(){
+          $("#submit").click(function(){
+            // $.post("/TCheckTitle.php",{btn:'change',},
+            //   function(data){
+                // var cookie_Pno = $("#input_Pno").val();
+                //$.cookie("cookie_Pno", cookie_Pno, {path:'/'});
+                $.post("/ChoosingTitle.php",
+                    {
+                        Sno:$.cookie('cookie_Sno'),
+                        Pno:$("#input_Pno").val(),
+                    },
+                    function(data){
+                        // alert(data);
+                        if (data==1) {
+                            alert("报课成功！");
+                        }
+
+                        else if (data==0) {
+                            alert("该课程以被更高成绩同学选走，点击确定刷新！");
+                            setTimeout("javascript:location.href='/PrintStudent.html'");
+                        }
+
+                        else {
+                            alert("未知错误，请刷新重试");
+                        }
+                        
+                    }
+                    );
+                // window.location.href="/submit.html";
+              // });//end of $.post("/test2.php", 
+            });//end of $("#btn_test").click(function()
+          });//end of (document).ready(function()
+        //}
+
+    </script>
+</head>
+<body>
+    输入想查看、报名的课程编号：<br><br>
+    <input id="input_Pno" type="text"><button id=view>查看详情</button><button id=submit>报名</button><br><br>
+    <table style='width:900px;'>
+        <thead>
+        <tr>
+            <th style='width:150px;'>项目编号</th>
+            <th>题目</th>
+            <th style='width:100px;'>指导老师</th>
+        </tr>
+        </thead>
+        <tbody id="J_tbData">
+        </tbody>
+    </table>
+</body>
+</html>
